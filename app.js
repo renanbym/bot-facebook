@@ -23,13 +23,14 @@ server.route({
     path:'/webhook',
     handler:  (request, reply) =>  {
         return reply({'so': 'vem'}).code(200);
-    },
-    {
-        method: 'POST',
-        path:'/webhook',
-        handler:  (request, reply) =>  {
-            return reply({'so': 'vai'}).code(200);
-        }
+    }
+});
+
+server.route({
+    method: 'POST',
+    path:'/webhook',
+    handler:  (request, reply) =>  {
+        return reply({'so': 'vai'}).code(200);
     }
 });
 

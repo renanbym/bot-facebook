@@ -38,11 +38,11 @@ server.route({
     method: 'POST',
     path:'/webhook',
     handler:  (request, reply) =>  {
+        console.log(request);
 
-        let data = request.body;
+        let data = request.paylod;
         if (data.object === 'page') {
 
-            console.log(request.query);
             // Iterate over each entry - there may be multiple if batched
             data.entry.forEach( (entry) => {
                 let pageID = entry.id;
@@ -64,7 +64,7 @@ server.route({
             // you've successfully received the callback. Otherwise, the request
             // will time out and we will keep trying to resend.
             return reply().code(200);
-        }            
+        }
     }
 });
 

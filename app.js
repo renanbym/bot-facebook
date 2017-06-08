@@ -1,7 +1,6 @@
 const Hapi = require('hapi');
 const server = new Hapi.Server();
 
-cont request = require('request')
 
 server.connection({
     host:  '0.0.0.0',

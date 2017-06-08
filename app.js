@@ -40,7 +40,7 @@ server.route({
     handler:  (request, reply) =>  {
         console.log(request);
 
-        let data = request.paylod;
+        let data = request.payload;
         if (data.object === 'page') {
 
             // Iterate over each entry - there may be multiple if batched

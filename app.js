@@ -14,7 +14,22 @@ server.route({
     method: 'GET',
     path:'/',
     handler:  (request, reply) =>  {
-        return reply('{ola': 'peddoal').code(200);
+        return reply({'ola': 'peddoal'}).code(200);
+    }
+});
+
+server.route({
+    method: 'GET',
+    path:'/webhook',
+    handler:  (request, reply) =>  {
+        return reply({'so': 'vem'}).code(200);
+    },
+    {
+        method: 'POST',
+        path:'/webhook',
+        handler:  (request, reply) =>  {
+            return reply({'so': 'vai'}).code(200);
+        }
     }
 });
 

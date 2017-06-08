@@ -26,8 +26,8 @@ server.route({
         if (request.query['hub.mode'] === 'subscribe' && request.query['hub.verify_token'] === 'vamosvencer') {
             return reply(request.query['hub.challenge']).code(200);
         } else {
-            return reply().code(403);
             console.error("Failed validation. Make sure the validation tokens match.");
+            return reply().code(403);
         }
 
 

@@ -62,7 +62,7 @@ server.route({
         // You must send back a 200, within 20 seconds, to let us know
         // you've successfully received the callback. Otherwise, the request
         // will time out and we will keep trying to resend.
-        res.sendStatus(200);
+        return reply().code(200);
 
     }
 });

@@ -1,0 +1,27 @@
+{
+    "name": "bot-facebook",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "engines": {
+        "node": "6.2.1"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "private": true,
+    "scripts": {
+        "build": "npm install",
+        "start": "node app.js"
+    },
+    "author": "",
+    "license": "MIT",
+    "devDependencies": {
+        "nodemon": "^1.11.0"
+    },
+    "dependencies": {
+        "hapi": "^15.1.1",
+        "hltv": "^0.2.1",
+        "moment": "^2.15.1"
+    }
+}

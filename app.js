@@ -96,6 +96,10 @@ function receivedMessage(event)  {
             sendGenericMessage(senderID);
             break;
 
+            case '#receita':
+            sendRecipeMessage( senderID );
+            break;
+
             default:
             sendTextMessage(senderID, messageText);
         }
@@ -104,8 +108,55 @@ function receivedMessage(event)  {
     }
 }
 
+
+
+
+
+function sendRecipeMessage( recipientId ){
+
+    request({
+        uri: 'http://tennessee.herokuapp.com/rest/receitas',
+        method: 'GET'
+    }, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+
+            var data = JSON.parse( body );
+
+            let recipies  = data.dados.map(function(c){
+                let obj = new Object();
+
+                obj.title = c.titulo
+                obj.subtitle = c.tempo+" Minutos - Serve "+c.porcoes+" pessoas"
+                obj.item_url = "http://tennessee.herokuapp.com/receitas-detalhe/"+c.slug
+                obj.image_url = c.thumb
+                obj.buttons = [{type: "web_url",url:"http://tennessee.herokuapp.com/receitas-detalhe/"+c.slug,title: "Ver receita"}]
+
+                return obj;
+            })
+
+
+            let messageData = {
+                recipient: {
+                    id: recipientId
+                },
+                message: {
+                    attachment: {
+                        type: "template",
+                        payload: {
+                            template_type: "generic",
+                            elements: recipies
+                        }
+                    }
+                }
+            }
+            callSendAPI(messageData);
+        }
+    });
+
+}
+
 function sendGenericMessage(recipientId) {
-    var messageData = {
+    let messageData = {
         recipient: {
             id: recipientId
         },
@@ -144,7 +195,7 @@ function sendGenericMessage(recipientId) {
 }
 
 function sendTextMessage(recipientId, messageText) {
-    var messageData = {
+    let messageData = {
         recipient: {
             id: recipientId
         },
@@ -165,8 +216,8 @@ function callSendAPI(messageData) {
 
     }, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            var recipientId = body.recipient_id;
-            var messageId = body.message_id;
+            let recipientId = body.recipient_id;
+            let messageId = body.message_id;
 
             console.log("Successfully sent generic message with id %s to recipient %s",
             messageId, recipientId);
@@ -176,21 +227,4 @@ function callSendAPI(messageData) {
             console.error(error);
         }
     });
-}
-
-function receivedPostback(event) {
-    var senderID = event.sender.id;
-    var recipientID = event.recipient.id;
-    var timeOfPostback = event.timestamp;
-
-    // The 'payload' param is a developer-defined field which is set in a postback
-    // button for Structured Messages.
-    var payload = event.postback.payload;
-
-    console.log("Received postback for user %d and page %d with payload '%s' " +
-    "at %d", senderID, recipientID, payload, timeOfPostback);
-
-    // When a postback is called, we'll send a message back to the sender to
-    // let them know it was successful
-    sendTextMessage(senderID, "Postback called");
 }

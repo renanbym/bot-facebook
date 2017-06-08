@@ -41,7 +41,7 @@ server.route({
 
         let data = request.body;
 
-
+        console.log(data);
         // Iterate over each entry - there may be multiple if batched
         data.entry.forEach( (entry) => {
             let pageID = entry.id;

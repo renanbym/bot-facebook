@@ -1,5 +1,6 @@
 const Hapi = require('hapi');
 const server = new Hapi.Server();
+const request = require('request');
 
 
 server.connection({

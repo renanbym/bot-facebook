@@ -38,9 +38,10 @@ server.route({
     method: 'POST',
     path:'/webhook',
     handler:  (request, reply) =>  {
-        console.log(request);
 
         let data = request.payload;
+        console.log(data);
+
         if (data.object === 'page') {
 
             // Iterate over each entry - there may be multiple if batched
@@ -125,7 +126,7 @@ function sendTextMessage(recipientId, messageText) {
 function callSendAPI(messageData) {
     request({
         uri: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: { access_token: PAGE_ACCESS_TOKEN },
+        qs: { access_token: "EAAFeD6i9wa4BABJLIDCtLaz2ZCPQCdIEKMtNW2nMJxAHwLlj57tVTSfCAu8Pl4aHSNhP2qLElk3M9zWSy3wL68pRZC3ezGVZCuxE5r6xp6ZBve6JZA3U1hTkHFduj4B8hZBbZCM3WZAqhwBL8n1v7V86x2J3sVjYYkkWipE851pGtAZDZD" },
         method: 'POST',
         json: messageData
 

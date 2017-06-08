@@ -1,8 +1,7 @@
 const Hapi = require('hapi');
 const server = new Hapi.Server();
 
-const HLTV = require('hltv');
-const hltv = new HLTV();
+cont request = require('request')
 
 server.connection({
     host:  '0.0.0.0',
@@ -40,7 +39,6 @@ server.route({
     handler:  (request, reply) =>  {
 
         let data = request.payload;
-        console.log(data);
 
         if (data.object === 'page') {
 

@@ -185,6 +185,7 @@ function sendMeAjuda( recipientId ){
                 type: "template",
                 "payload":{
                     "template_type":"button",
+                    "text":"Vai com calma e escolha ai!",
                     "buttons":[
                         {
                             "type":"web_url",

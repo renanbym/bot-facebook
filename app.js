@@ -1,5 +1,6 @@
 const Hapi = require('hapi');
-const config = require('config');
+const config = require('./config.json');
+
 const server = new Hapi.Server();
 const request = require('request');
 
@@ -73,15 +74,12 @@ server.start((err) => {
     console.log('Server running at:', server.info.uri);
 });
 
+
 function receivedMessage(event)  {
     let senderID = event.sender.id;
     let recipientID = event.recipient.id;
     let timeOfMessage = event.timestamp;
     let message = event.message;
-
-    console.log("Received message for user %d and page %d at %d with message:",
-    senderID, recipientID, timeOfMessage);
-    console.log(JSON.stringify(message));
 
     let messageId = message.mid;
 
@@ -90,15 +88,42 @@ function receivedMessage(event)  {
 
     if (messageText) {
 
-        // If we receive a text message, check to see if it matches a keyword
-        // and send back the example. Otherwise, just echo the text we received.
-        switch (messageText) {
+        let msg = messageText.match(/([mM][eE]\s?[Aa]jud[aA]|[aA]gend[aA]|[vV][aA][mM][oO][sS]\s?[vV]ence[Rr]|[rR]eceitas?|[sS]exta\-?\s?[fF]eira)/gi);
+
+        if( msg.length > 0 ){
+            msg = msg[0].toLowerCase();
+        }else{
+            msg = messageText;
+        }
+
+
+        switch ( msg ) {
             case 'agenda':
             sendGenericMessage(senderID);
             break;
 
-            case '#receita':
+            case 'receita':
             sendRecipeMessage( senderID );
+            break;
+
+            case 'vamos vencer':
+            sendVamosVencerMessage( senderID );
+            break;
+
+            case 'me ajuda':
+            sendMeAjuda( senderID );
+            break;
+
+            case 'tudo bem?':
+            sendTextMessage( senderID, 'Tudo e você !?' );
+            break;
+
+            case 'sexta-feira':
+            case 'sexta feira':
+            sendTextMessage( senderID, 'dia de maldade' );
+            sendTextMessage( senderID, 'dia de pedir um gole de yakult' );
+            sendTextMessage( senderID, 'dia de comer sushi com garfo e faca ' );
+            sendTextMessage( senderID, 'dia de colocar picanha na marmita de vegetariano' );
             break;
 
             default:
@@ -110,8 +135,87 @@ function receivedMessage(event)  {
 }
 
 
+function sendVamosVencerMessage( recipientId ){
+    request({
+        uri: 'http://f2f-digital.com/api/midia',
+        method: 'GET'
+    }, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+
+            var data = JSON.parse( body );
+
+            let recipies  = data.dados.map(function(c){
+                let obj = new Object();
+
+                obj.title = c.titulo
+                obj.subtitle = c.autor+" - "+c.data-formatada
+                obj.item_url = c.link
+                obj.image_url = c['caminho-thumb']
+                obj.buttons = [{type: "web_url",url:c.link ,title: "Ver Link"}]
+
+                return obj;
+            })
 
 
+            let messageData = {
+                recipient: {
+                    id: recipientId
+                },
+                message: {
+                    attachment: {
+                        type: "template",
+                        payload: {
+                            template_type: "generic",
+                            elements: recipies
+                        }
+                    }
+                }
+            }
+            callSendAPI(messageData);
+
+        }
+    })
+}
+
+function sendMeAjuda( recipientId ){
+
+
+    let messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            attachment: {
+                type: "template",
+                "payload":{
+                    "template_type":"button",
+                    "text":"What do you want to do next?",
+                    "buttons":[
+                        {
+                            "type":"web_url",
+                            "url":"https://get.uber.com/new-signup/",
+                            "title":"Assim cê chega em casa"
+                        }
+                        ,{
+                            "type":"web_url",
+                            "url":"https://open.spotify.com/user/12142916469/playlist/2fMc4QaiUZsX3AwB7Ypn32",
+                            "title":"Pede um litrão e uma caixa de lenço"
+                        }
+                        ,{
+                            "type":"web_url",
+                            "url":"https://www.skyscanner.com.br/passagens-aereas-para/las/passagens-aereas-promocionais-para-las-vegas-mccarran-aeroporto.html",
+                            "title":"Só vai"
+                        }
+                    ]
+                }
+
+            }
+        }
+    };
+
+    callSendAPI(messageData);
+
+}
 
 function sendRecipeMessage( recipientId ){
 

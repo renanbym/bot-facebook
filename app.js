@@ -103,10 +103,12 @@ function receivedMessage(event)  {
             break;
 
             case 'vamos vencer':
+            case 'vamosvencer':
             sendVamosVencerMessage( senderID );
             break;
 
             case 'me ajuda':
+            case 'meajuda':
             sendMeAjuda( senderID );
             break;
 

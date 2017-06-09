@@ -144,7 +144,7 @@ function sendVamosVencerMessage( recipientId ){
                 let obj = new Object();
 
                 obj.title = c.titulo
-                obj.subtitle = c.autor+" - "+c.data-formatada
+                obj.subtitle = c.autor+" - "+c['data-formatada']
                 obj.item_url = c.link
                 obj.image_url = c['caminho-thumb']
                 obj.buttons = [{type: "web_url",url:c.link ,title: "Ver Link"}]

@@ -195,7 +195,7 @@ function sendMeAjuda( recipientId ){
                         ,{
                             "type":"web_url",
                             "url":"https://open.spotify.com/user/12142916469/playlist/2fMc4QaiUZsX3AwB7Ypn32",
-                            "title":"Pede um litrão e uma caixa de lenço"
+                            "title":"Pega litrão e o lenço"
                         }
                         ,{
                             "type":"web_url",

@@ -90,8 +90,12 @@ function receivedMessage(event)  {
 
         let msg = messageText.match(/([mM][eE]\s?[Aa]jud[aA]|[aA]gend[aA]|[vV][aA][mM][oO][sS]\s?[vV]ence[Rr]|[rR]eceitas?|[sS]exta\-?\s?[fF]eira)/gi);
 
-        if( msg != null && typeof msg == 'object' || typeof msg == 'array' || msg.length > 0 ){
-            msg = msg[0].toLowerCase();
+        if( msg != null ){
+            if( msg.length > 0 ){
+                msg = msg[0].toLowerCase();
+            }else{
+                msg = messageText;
+            }
         }else{
             msg = messageText;
         }

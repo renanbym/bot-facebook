@@ -13,14 +13,6 @@ server.connection({
 
 server.route({
     method: 'GET',
-    path:'/',
-    handler:  (request, reply) =>  {
-        return reply({'ola': 'pessoal'}).code(200);
-    }
-});
-
-server.route({
-    method: 'GET',
     path:'/webhook',
     handler:  (request, reply) =>  {
 
@@ -124,10 +116,10 @@ function receivedMessage(event)  {
 
             case 'sexta-feira':
             case 'sexta feira':
-            sendTextMessage( senderID, 'dia de maldade' );
-            sendTextMessage( senderID, 'dia de pedir um gole de yakult' );
-            sendTextMessage( senderID, 'dia de comer sushi com garfo e faca ' );
             sendTextMessage( senderID, 'dia de colocar picanha na marmita de vegetariano' );
+            sendTextMessage( senderID, 'dia de comer sushi com garfo e faca ' );
+            sendTextMessage( senderID, 'dia de pedir um gole de yakult' );
+            sendTextMessage( senderID, 'dia de maldade' );
             break;
 
             default:
@@ -193,7 +185,6 @@ function sendMeAjuda( recipientId ){
                 type: "template",
                 "payload":{
                     "template_type":"button",
-                    "text":"What do you want to do next?",
                     "buttons":[
                         {
                             "type":"web_url",

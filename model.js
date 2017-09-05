@@ -1,7 +1,7 @@
 const request = require('request');
 const config = require('./config.json');
 
-module.exports = {
+const Model = {
 
     sendAPI:  (messageData) => {
         request({
@@ -30,7 +30,8 @@ module.exports = {
                 text: messageText
             }
         };
-        this.sendAPI(messageData);
+
+        Model.sendAPI(messageData);
     }
 
     ,sendImageMessage: ( recipientId, messageImage, messageText) => {
@@ -48,7 +49,9 @@ module.exports = {
                 }
             }
         };
-        this.sendAPI(messageData);
+        Model.sendAPI(messageData);
     }
 
 }
+
+module.exports = Model

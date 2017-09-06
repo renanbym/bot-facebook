@@ -100,7 +100,6 @@ function initChat( recipientId ){
         title: "Sobre o que você que saber ?",
         buttons: [{ title: "Inscrições", payload: "#inscricao" },{ title: "O desafio", payload: "#desafio" }]
     })
-    sendGenericMessage( recipientId );
 }
 
 

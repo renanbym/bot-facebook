@@ -14,7 +14,7 @@ const Model = {
                 console.log("Successfully sent generic message with id %s to recipient %s",body.message_id, body.recipient_id);
             } else {
                 console.error("Unable to send message.");
-                console.error(response);
+                console.error(body.error.message);
                 console.error(error);
             }
 

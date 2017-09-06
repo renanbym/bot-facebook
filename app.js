@@ -114,10 +114,14 @@ function receivedPostback(event) {
     switch ( payload ) {
 
         case '#inscricao':
-        model.sendButtonMessage( recipientId, {
+        model.sendButtonMessage( senderID, {
             title: "",
             buttons: [{ title: "Como me inscrevo ?", payload: "#como_me_inscrevo" },{ title: "Posso participar sozinho ?", payload: "#posso_participar_sozinho" },{ title: "Existe limite de pessoas por grupo ?", payload: "#existe_limite_de_pessoas_por_grupo" }]
         })
+        break;
+
+        case "#como_me_inscrevo":
+        model.sendTextMessage(senderID, "Vai no site pow!");
         break;
 
         default:

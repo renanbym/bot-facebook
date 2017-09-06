@@ -119,6 +119,10 @@ function receivedPostback(event) {
         })
         break;
 
+        case "#desafio":
+        model.sendListMessage( senderID, {} );
+        break;
+
         case "#como_me_inscrevo":
         model.sendTextMessage(senderID, "Vai no site pow!");
         break;

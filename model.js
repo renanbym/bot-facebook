@@ -52,6 +52,25 @@ const Model = {
         Model.sendAPI(messageData);
     }
 
+    ,sendButtonMessage: ( recipientId, params ) => {
+        let messageData = {
+            recipient: {
+                id: recipientId
+            },
+            message: {
+                attachment: {
+                    type: "template",
+                    payload: {
+                        template_type: "button",
+                        text: params.title,
+                        buttons: params.buttons.map((c) => { c.type = "postback"; return c; })
+                    }
+                }
+            }
+        };
+        Model.sendAPI(messageData);
+    }
+
 }
 
 module.exports = Model

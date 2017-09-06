@@ -95,49 +95,36 @@ function receivedMessage(event)  {
 
 
 function initChat( recipientId ){
-    model.sendImageMessage( recipientId, "https://petersapparel.com/img/shirt.png");
+    model.sendImageMessage( recipientId, "https://petersapparel.com/img/shirt.png", "txt");
+    model.sendButtonMessage( recipientId, {
+        title: "Sobre o que você que saber ?",
+        buttons: [{ title: "Inscrições", payload: "#inscricao" },{ title: "O desafio", payload: "#desafio" }]
+    })
     sendGenericMessage( recipientId );
-}
-
-function sendGenericMessage(recipientId) {
-    var messageData = {
-        recipient: {
-            id: recipientId
-        },
-        message: {
-            attachment: {
-                type: "template",
-                payload: {
-                    template_type: "button",
-                    text: "Sobre o que você que saber ?",
-                    buttons: [{
-                        type: "postback",
-                        title: "Inscrições",
-                        payload: "Payload inscriçao",
-                    },{
-                        type: "postback",
-                        title: "O desafio",
-                        payload: "Payload desafio",
-                    }]
-                }
-            }
-        }
-    };
-
-    model.sendAPI(messageData);
 }
 
 
 function receivedPostback(event) {
-    var senderID = event.sender.id;
-    var recipientID = event.recipient.id;
-    var timeOfPostback = event.timestamp;
+    let senderID = event.sender.id;
+    let recipientID = event.recipient.id;
+    let timeOfPostback = event.timestamp;
 
+    let payload = event.postback.payload;
 
-    var payload = event.postback.payload;
+    switch ( payload ) {
 
-    console.log("Received postback for user %d and page %d with payload '%s' " +
-    "at %d", senderID, recipientID, payload, timeOfPostback);
+        case '#inscricao':
+        model.sendButtonMessage( recipientId, {
+            title: "",
+            buttons: [{ title: "Como me inscrevo ?", payload: "#como_me_inscrevo" },{ title: "Posso participar sozinho ?", payload: "#posso_participar_sozinho" },{ title: "Existe limite de pessoas por grupo ?", payload: "#existe_limite_de_pessoas_por_grupo" }]
+        })
+        break;
 
-    model.sendTextMessage(senderID, "Postback called");
+        default:
+        console.log("Received postback for user %d and page %d with payload '%s' " +
+        "at %d", senderID, recipientID, payload, timeOfPostback);
+        model.sendTextMessage(senderID, "Postback called");
+        break;
+    }
+
 }

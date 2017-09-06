@@ -96,7 +96,7 @@ function receivedMessage(event)  {
 
 function initChat( recipientId ){
     model.sendImageMessage( recipientId, "https://petersapparel.com/img/shirt.png");
-    sendGenericMessage(senderID);
+    sendGenericMessage( recipientId );
 }
 
 function sendGenericMessage(recipientId) {

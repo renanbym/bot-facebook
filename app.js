@@ -139,5 +139,5 @@ function receivedPostback(event) {
     console.log("Received postback for user %d and page %d with payload '%s' " +
     "at %d", senderID, recipientID, payload, timeOfPostback);
 
-    sendTextMessage(senderID, "Postback called");
+    model.sendTextMessage(senderID, "Postback called");
 }

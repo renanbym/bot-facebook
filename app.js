@@ -95,7 +95,7 @@ function receivedMessage(event)  {
 
 
 function initChat( recipientId ){
-    model.sendImageMessage( recipientId, "https://petersapparel.com/img/shirt.png", "txt");
+    model.sendImageMessage( recipientId, "https://petersapparel.com/img/shirt.png");
     model.sendButtonMessage( recipientId, {
         title: "Sobre o que você que saber ?",
         buttons: [{ title: "Inscrições", payload: "#inscricao" },{ title: "O desafio", payload: "#desafio" }]
@@ -115,8 +115,8 @@ function receivedPostback(event) {
 
         case '#inscricao':
         model.sendButtonMessage( senderID, {
-            title: "",
-            buttons: [{ title: "Como me inscrevo ?", payload: "#como_me_inscrevo" },{ title: "Posso participar sozinho ?", payload: "#posso_participar_sozinho" },{ title: "Existe limite de pessoas por grupo ?", payload: "#existe_limite_de_pessoas_por_grupo" }]
+            title: "Sobre inscrição, o que você precisa ?",
+            buttons: [{ title: "Como me inscrevo", payload: "#como_me_inscrevo" },{ title: "Posso participar sozinho", payload: "#posso_participar_sozinho" },{ title: "Existe limite de pessoas por grupo", payload: "#existe_limite_de_pessoas_por_grupo" }]
         })
         break;
 

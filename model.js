@@ -34,13 +34,12 @@ const Model = {
         Model.sendAPI(messageData);
     }
 
-    ,sendImageMessage: ( recipientId, messageImage, messageText) => {
+    ,sendImageMessage: ( recipientId, messageImage) => {
         let messageData = {
             recipient: {
                 id: recipientId
             },
             message: {
-                text: messageText,
                 attachment:{
                     type:"image",
                     payload:{

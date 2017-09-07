@@ -4,6 +4,7 @@ const config = require('./config.json');
 const server = new Hapi.Server();
 const request = require('request');
 const model = require('./model');
+const data = require('./questions');
 
 
 server.connection({
@@ -99,7 +100,15 @@ function initChat( recipientId ){
     model.sendButtonMessage( recipientId, {
         title: "Sobre o que você que saber ?",
         buttons: [{ title: "Inscrições", payload: "#inscricao" },{ title: "O desafio", payload: "#desafio" }]
-    })
+    });
+
+    let info = data.questions.filter((c)=>{ return !c.ref_payload })[0];
+    model.sendButtonMessage( recipientId, {
+        title: info.question,
+        buttons: info.answers
+    });
+
+    model.sendListMessage( senderID, {} );
 }
 
 

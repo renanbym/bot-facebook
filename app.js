@@ -1,10 +1,7 @@
 const Hapi = require('hapi');
-const config = require('./config.json');
-
 const server = new Hapi.Server();
-const request = require('request');
-const model = require('./model');
-const data = require('./questions');
+const facebookFormat = require('./chatBotFacebookFormat');
+const questions = require('./questions.json');
 
 
 server.connection({
@@ -17,15 +14,12 @@ server.route({
     method: 'GET',
     path:'/webhook',
     handler:  (request, reply) =>  {
-
         if (request.query['hub.mode'] === 'subscribe' && request.query['hub.verify_token'] === 'vamosvencer') {
             return reply(request.query['hub.challenge']).code(200);
         } else {
             console.error("Failed validation. Make sure the validation tokens match.");
             return reply().code(403);
         }
-
-
     }
 });
 
@@ -59,13 +53,14 @@ server.route({
     }
 });
 
-server.start((err) => {
+server.start( (err) => {
     if (err) throw err;
     console.log('Server running at:', server.info.uri);
 });
 
 
 function receivedMessage(event)  {
+
     let senderID = event.sender.id;
     let recipientID = event.recipient.id;
     let timeOfMessage = event.timestamp;
@@ -76,39 +71,17 @@ function receivedMessage(event)  {
     let messageText = message.text;
     let messageAttachments = message.attachments;
 
-    if (messageText) {
-
-        let msg = messageText;
-
-        switch ( messageText ) {
-            case '#meajudapaulo':
-            initChat(senderID);
-            break;
-
-            default:
-            model.sendTextMessage(senderID, messageText);
-            break;
-        }
-    } else if (messageAttachments) {
-        model.sendTextMessage(senderID, "Message with attachment received");
+    if (messageText && messageText == '#meajudapaulo') {
+        initChat(senderID);
     }
 }
 
 
-function initChat( recipientId ){
-    model.sendImageMessage( recipientId, "https://petersapparel.com/img/shirt.png");
-    model.sendButtonMessage( recipientId, {
-        title: "Sobre o que você que saber ?",
-        buttons: [{ title: "Inscrições", payload: "#inscricao" },{ title: "O desafio", payload: "#desafio" }]
-    });
-
-    let info = data.questions.filter((c)=>{ return !c.ref_payload })[0];
-    model.sendButtonMessage( recipientId, {
-        title: info.question,
-        buttons: info.answers
-    });
-
-    model.sendListMessage( senderID, {} );
+function initChat( senderID ){
+    facebookFormat.sendImageMessage( senderID, "https://petersapparel.com/img/shirt.png");
+    let info = data.questions.filter((c)=>  !c.ref_payload )[0];
+    facebookFormat.sendButtonMessage( senderID, { title: info.question, buttons: info.answers });
+    facebookFormat.sendListMessage( senderID, {} );
 }
 
 
@@ -116,31 +89,31 @@ function receivedPostback(event) {
     let senderID = event.sender.id;
     let recipientID = event.recipient.id;
     let timeOfPostback = event.timestamp;
-
     let payload = event.postback.payload;
 
-    switch ( payload ) {
+    checkQuestion( payload, ( err, response ) => {
+        if (err) throw err;
 
-        case '#inscricao':
-        model.sendButtonMessage( senderID, {
-            title: "Sobre inscrição, o que você precisa ?",
-            buttons: [{ title: "Como me inscrevo", payload: "#como_me_inscrevo" },{ title: "Posso participar sozinho", payload: "#posso_participar_sozinho" },{ title: "Existe limite de pessoas por grupo", payload: "#existe_limite_de_pessoas_por_grupo" }]
-        })
-        break;
+        if( response.type == "text" ){
+            facebookFormat.sendTextMessage(senderID, response.text );
+        } else if( response.type == "button" ){
+            facebookFormat.sendButtonMessage( senderID, { title: response.question, buttons: response.answers })
+        } else if( response.type == "list" ){
+            // facebookFormat.sendListMessage( senderID, {} );
+        } else if( response.type == "final" ){
 
-        case "#desafio":
-        model.sendListMessage( senderID, {} );
-        break;
+        }
+    })
+}
 
-        case "#como_me_inscrevo":
-        model.sendTextMessage(senderID, "Vai no site pow!");
-        break;
 
-        default:
-        console.log("Received postback for user %d and page %d with payload '%s' " +
-        "at %d", senderID, recipientID, payload, timeOfPostback);
-        model.sendTextMessage(senderID, "Postback called");
-        break;
+function checkQuestion( payload ){
+
+    let question = questions.filter( (c)=> c.ref_payload == payload )[0];
+    if( typeof question == "undefined" ){
+        callback( "acabou", false );
+    }else{
+        callback( false, question );
     }
 
 }

@@ -78,9 +78,9 @@ function receivedMessage(event)  {
 
 
 function initChat( senderID ){
-    facebookFormat.sendImageMessage( senderID, "https://petersapparel.com/img/shirt.png");
-    let info = data.questions.filter((c)=>  !c.ref_payload )[0];
-    facebookFormat.sendButtonMessage( senderID, { title: info.question, buttons: info.answers });
+    // facebookFormat.sendImageMessage( senderID, "https://petersapparel.com/img/shirt.png");
+    // let info = data.questions.filter((c)=>  !c.ref_payload )[0];
+    // facebookFormat.sendButtonMessage( senderID, { title: info.question, buttons: info.answers });
     facebookFormat.sendListMessage( senderID, {} );
 }
 

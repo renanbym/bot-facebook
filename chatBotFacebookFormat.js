@@ -70,6 +70,36 @@ const Model = {
         Model.sendAPI(messageData);
     }
 
+    ,sendQuickMessage: ( recipientId, params ) => {
+        let messageData = {
+            recipient: {
+                id: recipientId
+            },
+            message: {
+                "quick_replies":[
+                    {
+                        "content_type":"text",
+                        "title":"Search",
+                        "payload":"#teste",
+                        "image_url":"http://example.com/img/red.png"
+                    },
+                    {
+                        "content_type":"location"
+                    },
+                    {
+                        "content_type":"text",
+                        "title":"Something Else",
+                        "payload":"#teste2",
+                    }
+                ]
+            }
+        };
+        console.log(messageData);
+        Model.sendAPI(messageData);
+
+    }
+
+
     ,sendListMessage: ( recipientId, params ) => {
         let messageData = {
             recipient: {
@@ -84,19 +114,15 @@ const Model = {
                         "elements": [
                             {
                                 "title": "Classic White T-Shirt #1",
-                                "subtitle": "See all our colors",
-                                "default_action": {
-                                    "type": "postback",
-                                    "payload": "#teste2"
-                                }
+                                "type": "postback",
+                                "payload": "#teste2"
+                                
                             },
                             {
                                 "title": "Classic White T-Shirt #2",
-                                "subtitle": "See all our colors",
-                                "default_action": {
-                                    "type": "postback",
-                                    "payload": "#teste2"
-                                }
+                                "type": "postback",
+                                "payload": "#teste2"
+
                             }
                         ]
                     }

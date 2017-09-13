@@ -87,6 +87,7 @@ function initChat( senderID ){
     // let info = data.questions.filter((c)=>  !c.ref_payload )[0];
     // facebookFormat.sendButtonMessage( senderID, { title: info.question, buttons: info.answers });
     facebookFormat.sendListMessage( senderID, {} );
+    facebookFormat.sendQuickMessage( senderID, {} );
 }
 
 

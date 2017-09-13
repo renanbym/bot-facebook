@@ -64,6 +64,8 @@ function receivedMessage(event)  {
     let senderID = event.sender.id;
     let recipientID = event.recipient.id;
     let timeOfMessage = event.timestamp;
+
+
     let message = event.message;
 
     let messageId = message.mid;
@@ -71,6 +73,9 @@ function receivedMessage(event)  {
     let messageText = message.text;
     let messageAttachments = message.attachments;
 
+    console.log(timeOfMessage);
+
+    console.log(messageText);
     if (messageText && messageText == '#meajudapaulo') {
         initChat(senderID);
     }
@@ -78,7 +83,7 @@ function receivedMessage(event)  {
 
 
 function initChat( senderID ){
-    // facebookFormat.sendImageMessage( senderID, "https://petersapparel.com/img/shirt.png");
+    facebookFormat.sendImageMessage( senderID, "http://f2f-digital.com/public/imagens/logo.png");
     // let info = data.questions.filter((c)=>  !c.ref_payload )[0];
     // facebookFormat.sendButtonMessage( senderID, { title: info.question, buttons: info.answers });
     facebookFormat.sendListMessage( senderID, {} );

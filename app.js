@@ -98,7 +98,7 @@ function receivedPostback(event) {
 
     checkQuestion( payload, ( err, response ) => {
         if (err) throw err;
-
+        console.log(err, response.type);
         if( response.type == "text" ){
             facebookFormat.sendTextMessage(senderID, response.text );
         } else if( response.type == "button" ){

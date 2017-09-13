@@ -13,7 +13,7 @@ const Model = {
             if (!error && response.statusCode == 200) {
                 console.log("Successfully sent generic message with id %s to recipient %s",body.message_id, body.recipient_id);
             } else {
-                console.error("Unable to send message.");
+                console.error("[ERROR] Unable to send message.");
                 console.error(body.error.message);
                 console.error(error);
             }
@@ -83,59 +83,27 @@ const Model = {
                         top_element_style: "compact",
                         "elements": [
                             {
-                                "title": "Classic T-Shirt Collection",
-                                "subtitle": "See all our colors",
-                                "image_url": "https://peterssendreceiveapp.ngrok.io/img/collection.png",
-                                "buttons": [
-                                    {
-                                        "title": "View",
-                                        "type": "web_url",
-                                        "url": "https://peterssendreceiveapp.ngrok.io/collection",
-                                        "messenger_extensions": true,
-                                        "webview_height_ratio": "tall",
-                                        "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
-                                    }
-                                ]
-                            },
-                            {
-                                "title": "Classic White T-Shirt",
+                                "title": "Classic White T-Shirt #1",
                                 "subtitle": "See all our colors",
                                 "default_action": {
-                                    "type": "web_url",
-                                    "url": "https://peterssendreceiveapp.ngrok.io/view?item=100",
-                                    "messenger_extensions": true,
-                                    "webview_height_ratio": "tall",
-                                    "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+                                    "type": "postback",
+                                    "payload": "#teste2"
                                 }
                             },
                             {
-                                "title": "Classic Blue T-Shirt",
-                                "image_url": "https://peterssendreceiveapp.ngrok.io/img/blue-t-shirt.png",
-                                "subtitle": "100% Cotton, 200% Comfortable",
+                                "title": "Classic White T-Shirt #2",
+                                "subtitle": "See all our colors",
                                 "default_action": {
-                                    "type": "web_url",
-                                    "url": "https://peterssendreceiveapp.ngrok.io/view?item=101",
-                                    "messenger_extensions": true,
-                                    "webview_height_ratio": "tall",
-                                    "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
-                                },
-                                "buttons": [
-                                    {
-                                        "title": "Shop Now",
-                                        "type": "web_url",
-                                        "url": "https://peterssendreceiveapp.ngrok.io/shop?item=101",
-                                        "messenger_extensions": true,
-                                        "webview_height_ratio": "tall",
-                                        "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
-                                    }
-                                ]
+                                    "type": "postback",
+                                    "payload": "#teste2"
+                                }
                             }
                         ]
                     }
                 }
             }
         };
-
+        console.log(messageData);
         Model.sendAPI(messageData);
 
     }
